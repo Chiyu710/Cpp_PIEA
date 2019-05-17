@@ -122,6 +122,7 @@
     <ClInclude Include="Students.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="PassStudentsinfo.txt" />
     <Text Include="password.txt" />
     <Text Include="studentsinfo.txt" />
   </ItemGroup>

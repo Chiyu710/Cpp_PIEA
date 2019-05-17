@@ -10,6 +10,7 @@ int main()
 {
 
 	students* find(students *s, char str[20]);
+	bool check(students* stu, cgrade *s);
 	char info[20];
 	int grade;
 	char password[10];
@@ -21,6 +22,10 @@ int main()
 	passwd >> cpassword;
 	students*news = new students;
 	students *stu = new students;
+	students *pstu = new students;
+	students *ptail = new students;
+	students *fp = new students;
+	cgrade*s = new cgrade;
 	students *tail;
 	stuin >> stu->name;
 	stuin >> stu->id;
@@ -33,9 +38,11 @@ int main()
 	stu->get_sum();
 	stu->next = NULL;
 	tail = stu;
+	ptail = pstu;
 	while (stuin>>info) 
 	{
 		students *p = new students;
+		students *pp = new students; //为过线学生造位置
 		strcpy_s(p->name,info);
 		stuin >>p->id;
 		stuin >> p->major;
@@ -48,6 +55,9 @@ int main()
 		p->next = NULL;
 		tail->next = p;
 		tail = p;
+		pp->next = NULL; //为过线学生造位置
+		ptail->next = pp;//为过线学生造位置
+		ptail = pp;//为过线学生造位置
 	}
 	stuin.close();
 	passwd.close();
@@ -141,8 +151,22 @@ int main()
 									stu = news;
 									stu->input(stu);
 									Sleep(1000);	break;
-								case 4: ff = stu; ff->input(ff);  break;
-								default:;       break;
+								case 4:system("cls");
+									cout << "请输入要删除的学生的准考证号：";
+									cin >> tid;
+									infop = stu;
+									ff = find(stu, tid);
+									if (ff == NULL) cout << "未找到相应学生 请重试！";
+									else {
+										ff->list();
+										cout << "确认删除该学生？" << endl;
+										cout << "1.确认删除" << '\t' << "2.取消" << endl;
+										cin >> temp;
+										if (temp == 1) { stu->deletestu(stu,ff); stu->input(stu); }
+									};
+									Sleep(1000);	break; 
+									break;
+								default:i1=-1;       break;
 
 								}
 
@@ -158,11 +182,45 @@ int main()
 								cout << "----------------------------------\n";
 								cout << "1.输入最低成绩要求" << endl;
 								cout << "2.输出过线学生" << endl;
+								cout << "----------------------------------\n";
+								cout << "*输入-1返回" << endl;
 								cin >> i1;
 								switch (i1)
 								{
-								case 1: 				break;
-								case 2: 				break;
+								case 1:
+									system("cls");
+									int lmath, lpolicy, llang, lpro, lsum;
+									cout << "数学最低分："; cin >> lmath;   cout << endl;
+									cout << "外语最低分："; cin >> llang;   cout << endl;
+									cout << "政治最低分："; cin >> lpolicy; cout << endl;
+									cout << "专业最低分："; cin >> lpro;    cout << endl;
+									cout << "总分最低分："; cin >> lsum;    cout << endl;
+									s->setcgrade(lmath, lpolicy, llang, lpro, lsum);
+									Sleep(1000);
+									break;
+								case 2: 
+									system("cls");
+									ff = stu;
+									fp = ptail;
+									while (ff != NULL)
+								{
+										if (check(ff, s)) 
+										{
+											//ff->list();
+											fp = ff;
+											fp = fp->next;
+										}
+										ff = ff->next;
+								}
+									fp = ptail;
+									while (fp != NULL) 
+									{
+										fp->list();
+										fp = fp->next;
+									}
+									cout << "输入任何数字返回:";
+									cin >> i1;
+									break;
 								default: i1 = -1;       break;
 
 								}
@@ -183,33 +241,6 @@ int main()
 					system("cls");
 					cout << "请输入密码：";
 				}
-				/*
-				  while(i!=-1)
-				  {
-					 // fh=0;
-					  
-					   case 2:
-						   while(fh!=-1)
-						   {
-
-							   blist.find(i);
-							   cout<<"输入任意数字返回"<<endl;
-							   cin>>fh;
-							   fh=-1;
-						   }
-							   break;
-					   case 3:
-						   while(fh!=-1)
-						   {
-							   blist.advancedfind();
-							   cout<<"输入任意数字返回"<<endl;
-							   cin>>fh;
-							   fh=-1;
-						   }
-						   break;
-					   }
-					   fh=0;
-				  }*/
 			}
 			break;
 		case 2:
@@ -247,4 +278,15 @@ students* find(students *s, char str[20])
 		find = find->next;
 	}
 	return NULL;
+}
+
+bool check(students* stu,cgrade *s)
+{
+	bool f = 1;
+	if (stu->math < s->math) return  0;
+	if (stu->lang < s->lang) return  0;
+	if (stu->policy < s->policy) return  0;
+	if (stu->pro < s->pro) return  0;
+	if (stu->Sum < s->sum) return  0;
+	return  f;
 }
