@@ -19,8 +19,8 @@ public:
 	void list();
 	void edit(char tname[], char ttid[], char  tmajor[], char tis[], int g1, int g2, int g3, int g4);
 	void input(students* stu);
-	void pinput(students* stu);
-	//students operator=()
+	void pinput(students* stu, int num);
+	void scpy(students *obj);
 };
 
 void students::list()
@@ -63,6 +63,7 @@ void students::input(students* stu)
 
 void students::deletestu(students * s,students *f) 
 {
+	if (s == f) { f = s->next; s->next = s->next->next; f->next = s; s = f; f = f->next; }
 	while (s != NULL) 
 	{
 		if (s->next==f)
@@ -76,11 +77,12 @@ void students::deletestu(students * s,students *f)
 	}
 }	
 
-void students::pinput(students* stu) 
+void students::pinput(students* stu,int num) 
 {
 	ofstream fout("PassStudentsinfo.txt", ios::out);
-	while (stu != NULL)
+	while (num>0)
 	{
+		num--;
 		fout << stu->name << '\t';
 		fout << stu->id << '\t';
 		fout << stu->major << '\t';
@@ -89,11 +91,24 @@ void students::pinput(students* stu)
 		fout << stu->lang << '\t';
 		fout << stu->policy << '\t';
 		fout << stu->pro << '\t';
+		fout << stu->Sum << '\t';
 		fout << endl;
 		stu = stu->next;
 	}
 }
 
+void students::scpy(students *obj)
+{
+	strcpy_s(name, obj->name);
+	strcpy_s(id, obj->id);
+	strcpy_s(major, obj->major);
+	strcpy_s(is_year, obj->is_year);
+	math = obj->math;
+	lang = obj->lang;
+	policy = obj->policy;
+	pro = obj->pro;
+	Sum = obj->Sum;
+}
 
 /*void set_name(char str[10]) { strcpy_s(name, str); }
 	void set_id(char str[20])   { strcpy_s(id, str); }

@@ -8,9 +8,9 @@
 using namespace std;
 int main()
 {
-
 	students* find(students *s, char str[20]);
 	bool check(students* stu, cgrade *s);
+	void plist(students*pstu, int num);
 	char info[20];
 	int grade;
 	char password[10];
@@ -23,10 +23,11 @@ int main()
 	students*news = new students;
 	students *stu = new students;
 	students *pstu = new students;
-	students *ptail = new students;
-	students *fp = new students;
-	cgrade*s = new cgrade;
 	students *tail;
+	students *ptail;
+	students *fp = new students;
+	students* ff = new students;
+	cgrade*s = new cgrade;
 	stuin >> stu->name;
 	stuin >> stu->id;
 	stuin >> stu->major;
@@ -37,6 +38,7 @@ int main()
 	stuin >> stu->pro;
 	stu->get_sum();
 	stu->next = NULL;
+	pstu->next = NULL;
 	tail = stu;
 	ptail = pstu;
 	while (stuin>>info) 
@@ -53,16 +55,16 @@ int main()
 		stuin >> p->pro;
 		p->get_sum();
 		p->next = NULL;
+		pp->next = NULL; //为过线学生造位置
 		tail->next = p;
 		tail = p;
-		pp->next = NULL; //为过线学生造位置
 		ptail->next = pp;//为过线学生造位置
 		ptail = pp;//为过线学生造位置
 	}
+	//pstu = pstu->next;
 	stuin.close();
 	passwd.close();
 	students* infop = new students;
-	students* ff = new students;
 	int i1 = 0, i2,temp;
 	while (i1 != -1)
 	{
@@ -156,7 +158,7 @@ int main()
 									cin >> tid;
 									infop = stu;
 									ff = find(stu, tid);
-									if (ff == NULL) cout << "未找到相应学生 请重试！";
+									if (ff == NULL) cout << "未找到相应学生 请重试！"; 
 									else {
 										ff->list();
 										cout << "确认删除该学生？" << endl;
@@ -199,25 +201,33 @@ int main()
 									Sleep(1000);
 									break;
 								case 2: 
+									int pnum;
 									system("cls");
+									pnum = 0;
 									ff = stu;
-									fp = ptail;
+									fp = pstu;
 									while (ff != NULL)
-								{
+									{
+										
 										if (check(ff, s)) 
 										{
-											//ff->list();
-											fp = ff;
+											pnum++;
+											fp->scpy(ff);
 											fp = fp->next;
 										}
 										ff = ff->next;
-								}
-									fp = ptail;
-									while (fp != NULL) 
+									}
+									plist(pstu, pnum);
+									fp = pstu;
+									fp->pinput(fp,pnum);
+									while(pnum>0)
 									{
 										fp->list();
 										fp = fp->next;
+										pnum--;
 									}
+									
+									
 									cout << "输入任何数字返回:";
 									cin >> i1;
 									break;
@@ -290,3 +300,9 @@ bool check(students* stu,cgrade *s)
 	if (stu->Sum < s->sum) return  0;
 	return  f;
 }
+
+void plist(students*pstu, int num) 
+{
+
+}
+
