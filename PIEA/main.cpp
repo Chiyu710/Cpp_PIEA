@@ -217,8 +217,8 @@ int main()
 										}
 										ff = ff->next;
 									}
-									plist(pstu, pnum);
 									fp = pstu;
+									plist(fp, pnum);
 									fp->pinput(fp,pnum);
 									while(pnum>0)
 									{
@@ -301,8 +301,27 @@ bool check(students* stu,cgrade *s)
 	return  f;
 }
 
-void plist(students*pstu, int num) 
+void plist(students*pstu, int num)
 {
+	students *ts = new students;
+	students *s = pstu;
+	for (int i = 1; i <= num ; i++)
+	{
+		for (int j = 1; j <= num  - i; j++)
+		{
 
+			if (pstu->Sum < pstu->next->Sum)
+			{
+				//cout << "fixed!!";
+				//pstu->list();
+				ts->scpy(pstu->next);
+				pstu->next->scpy(pstu);
+				pstu->scpy(ts);
+			}
+			pstu = pstu->next;
+		}
+		pstu = s;
+	}
+	pstu = s;
 }
 
