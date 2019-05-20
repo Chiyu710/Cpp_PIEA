@@ -64,7 +64,13 @@ void students::input(students* stu)
 
 void students::deletestu(students * s,students *f) 
 {
-	if (s == f) { f = s->next; s->next = s->next->next; f->next = s; s = f; f = f->next; }
+	if (s == f) 
+	{
+		f = f->next;
+		students *ts = new students;
+		ts->scpy(f); f->scpy(s);  s->scpy(ts);
+		delete ts;
+	}
 	while (s != NULL) 
 	{
 		if (s->next==f)

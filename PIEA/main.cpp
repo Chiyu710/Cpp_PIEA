@@ -145,9 +145,11 @@ int main()
 									break;
 								case 3: 
 									system("cls");
+									cout << "-----------------输入Exit返回---------------\n";
 									cout << "请输入新增学生的信息：";
-
-									cin >> tname >> ttid >> tmajor >> tis >> g1 >> g2 >> g3 >> g4;
+									cin >> tname;
+									if (strcmp(tname, "Exit") == 0) break;
+									cin>> ttid >> tmajor >> tis >> g1 >> g2 >> g3 >> g4;
 									news->edit(tname, ttid, tmajor, tis, g1, g2, g3, g4);
 									news->next = stu;
 									stu = news;
@@ -273,8 +275,6 @@ int main()
 	system("pause");
 	return 0;
 }
-
-
 
 students* find(students *s, char str[20])
 {
