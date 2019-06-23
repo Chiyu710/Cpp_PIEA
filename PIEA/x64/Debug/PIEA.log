@@ -1,0 +1,4 @@
+﻿  main.cpp
+c:\users\asus\source\repos\piea\piea\main.cpp(19): warning C4101: “info”: 未引用的局部变量
+c:\users\asus\source\repos\piea\piea\main.cpp(20): warning C4101: “grade”: 未引用的局部变量
+  PIEA.vcxproj -> C:\Users\asus\source\repos\PIEA\x64\Debug\PIEA.exe
